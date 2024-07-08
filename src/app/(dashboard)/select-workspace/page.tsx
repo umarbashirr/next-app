@@ -11,10 +11,29 @@ import Link from "next/link";
 import { SelectWorkspace } from "@/db/schema";
 import WorkspaceForm from "./WorkspaceForm";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import AddNewWorkspace from "./AddNewWorkspace";
 
-const SelectWorkspacePage = async () => {
+const SelectWorkspacePage = async ({ searchParams }: any) => {
   const workspaces: SelectWorkspace[] | null = await getWorkspaces();
-  console.log(workspaces);
+
+  if (searchParams?.create) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <Card>
+          <CardHeader>
+            <CardTitle>Create Workspace</CardTitle>
+            <CardDescription>
+              Enter the name of your workpsace to get started.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <WorkspaceForm />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center justify-center h-full w-full">
       {workspaces && workspaces.length ? (
@@ -26,18 +45,21 @@ const SelectWorkspacePage = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {workspaces?.map((workspace) => {
-              return (
-                <Link
-                  key={workspace.id}
-                  className="p-4 rounded-lg border flex items-center justify-between"
-                  href={`workspace/${workspace.id}`}
-                >
-                  <p>{workspace?.name}</p>
-                  <ArrowRightIcon />
-                </Link>
-              );
-            })}
+            <div className="flex flex-col w-full gap-4">
+              {workspaces?.map((workspace) => {
+                return (
+                  <Link
+                    key={workspace.id}
+                    className="p-4 rounded-lg border flex items-center justify-between"
+                    href={`workspace/${workspace.id}`}
+                  >
+                    <p>{workspace?.name}</p>
+                    <ArrowRightIcon />
+                  </Link>
+                );
+              })}
+            </div>
+            <AddNewWorkspace />
           </CardContent>
         </Card>
       ) : (

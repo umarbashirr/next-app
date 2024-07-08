@@ -2,8 +2,17 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Delete, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import ClientMoreActions from "./ClientMoreActions";
 
 export type ClientTableColumnProps = {
   id: number;
@@ -125,6 +134,15 @@ export const clientTableColumns: ColumnDef<ClientTableColumnProps>[] = [
           <ArrowUpDown className="ml-2 w-3 h-3" />
         </Button>
       );
+    },
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const client = row.original;
+
+      return <ClientMoreActions client={client} />;
     },
   },
 ];

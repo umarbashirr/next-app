@@ -37,6 +37,7 @@ const WorkspaceForm = () => {
         title: "Success",
         description: "New workpsace created",
       });
+      router.push("/select-workspace");
       router.refresh();
     } catch (error) {
       console.error(error);
